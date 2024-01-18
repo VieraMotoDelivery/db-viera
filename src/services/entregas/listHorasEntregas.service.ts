@@ -25,11 +25,8 @@ const listHorasEntregas = async () => {
     .andWhere("entregas.msgwhats = :msgwhats", {
       msgwhats: false,
     })
-    .andWhere("entregas.formadepagamento = :formadepagamento", {
-      formadepagamento: "",
-    })
-    .andWhere("entregas.codigo = :codigo", {
-      codigo: "",
+    .andWhere("entregas.obs = :obs", {
+      obs: null,
     })
     .getMany();
 
