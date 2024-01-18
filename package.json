@@ -1,0 +1,41 @@
+{
+  "name": "database-chatbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "engines": {
+    "node": "18"
+  },
+  "scripts": {
+    "dev": "ts-node-dev --ignore-watch node_modules src/server.ts",
+    "typeorm": "typeorm-ts-node-commonjs",
+    "test": "cross-env NODE_ENV=test SECRET_KEY=secreta!chave jest --verbose --runInBand",
+    "build": "tsc",
+    "start": "node dist/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/cors": "^2.8.13",
+    "cors": "^2.8.5",
+    "cron": "^2.3.0",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-async-errors": "^3.1.1",
+    "node-fetch": "^3.3.1",
+    "pg": "^8.10.0",
+    "reflect-metadata": "^0.1.13",
+    "ts-jest": "^29.1.0",
+    "ts-node": "^10.9.1",
+    "typeorm": "^0.3.15"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "@types/jest": "^29.5.0",
+    "@types/node": "^18.15.11",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.0.4"
+  }
+}
