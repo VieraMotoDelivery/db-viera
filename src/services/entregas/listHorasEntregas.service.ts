@@ -26,7 +26,7 @@ const listHorasEntregas = async () => {
       msgwhats: false,
     })
     .andWhere("entregas.formadepagamento = :formadepagamento", {
-      obs: "",
+      formadepagamento: "",
     })
     .getMany();
 
