@@ -3,8 +3,7 @@ import { Repository } from "typeorm";
 import { Entregas } from "../../entities/entregas.entites";
 
 const updateEntregaService = async (body) => {
-  const entregasRepositorio: Repository<Entregas> =
-    AppDataSource.getRepository(Entregas);
+  const entregasRepositorio: Repository<Entregas> = AppDataSource.getRepository(Entregas);
 
   const ultimaEntrega = await entregasRepositorio
     .createQueryBuilder("entregas")
@@ -14,24 +13,36 @@ const updateEntregaService = async (body) => {
     .getOne();
 
   const dataDeHoje = new Date();
-
   const formatar = dataDeHoje.toLocaleString("pt-BR", { timeZone: "UTC" });
 
-  if (body.b == undefined) {
-    const entrega: Entregas = await entregasRepositorio.save({
-      ...ultimaEntrega,
-      ...body,
-      data: formatar,
-    });
+  if (ultimaEntrega) {
+    if (body.b === undefined) {
+      const entrega: Entregas = await entregasRepositorio.save({
+        ...ultimaEntrega,
+        ...body,
+        id: ultimaEntrega.id,
+        data: formatar,
+      });
 
-    return entrega;
-  } else if (body.b == "b") {
-    const entrega: Entregas = await entregasRepositorio.save({
-      ...ultimaEntrega,
+      return entrega;
+    } else if (body.b === "b") {
+      const entrega: Entregas = await entregasRepositorio.save({
+        ...ultimaEntrega,
+        ...body,
+        id: ultimaEntrega.id,
+        obs: `${ultimaEntrega.obs} - ${body.obs}`,
+        data: formatar,
+      });
+
+      return entrega;
+    }
+  } else {
+    // Handle the case when no existing delivery is found
+    const novaEntrega: Entregas[] = entregasRepositorio.create({
       ...body,
-      obs: `${ultimaEntrega.obs} - ${body.obs}`,
       data: formatar,
     });
+    const entrega = await entregasRepositorio.save(novaEntrega);
 
     return entrega;
   }

@@ -3,13 +3,17 @@ import {
   PrimaryGeneratedColumn,
   Column,
   BeforeInsert,
+  PrimaryColumn,
   Repository,
 } from "typeorm";
 import AppDataSource from "../data-source";
 
 @Entity("entregas")
 class Entregas {
-  @PrimaryGeneratedColumn("increment")
+  // @PrimaryGeneratedColumn("increment")
+  // id: string;
+
+  @PrimaryColumn()
   id: number;
 
   @Column({ length: 255, nullable: true })
@@ -39,8 +43,25 @@ class Entregas {
   @BeforeInsert()
   async antesDeInserir() {
     const dataDeHoje = new Date();
+
     const formatar = dataDeHoje.toLocaleString("pt-BR", { timeZone: "UTC" });
+
     this.data = formatar;
+
+    const entregasRepositorio: Repository<Entregas> =
+      AppDataSource.getRepository(Entregas);
+
+    const ultimaEntrega = await entregasRepositorio
+      .createQueryBuilder("entregas")
+      .orderBy("entregas.id", "DESC")
+      .limit(1)
+      .getOne();
+
+    if (!ultimaEntrega) {
+      this.id = 1;
+    } else if (ultimaEntrega) {
+      this.id = ultimaEntrega.id + 1;
+    }
   }
 }
 
