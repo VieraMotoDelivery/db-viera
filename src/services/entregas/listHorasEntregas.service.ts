@@ -66,7 +66,7 @@ const listHorasEntregas = async () => {
 Obrigado e até a próxima! 😃`,
       }
 
-      await fetch("https://chatbot-sos.up.railway.app/send-message", {
+      await fetch("https://viera-chatbot.up.railway.app/send-message", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
