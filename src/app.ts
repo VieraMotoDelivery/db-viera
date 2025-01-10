@@ -32,6 +32,28 @@ const job = new CronJob("@weekly", async () => {
   const webhookRepositorio: Repository<Webhook> =
     AppDataSource.getRepository(Webhook);
 
+  const totalEntregas = await entregasRepositorio.count();
+
+  try {
+    const data = {
+      number: "14998536591@c.us",
+      message: totalEntregas
+    };
+  
+    const responseFood = await fetch(
+      "https://viera-chatbot.up.railway.app/send-message",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    ) 
+  } catch (error) {
+    console.log("deu erro na quantidade de entrega da semana")
+  }
+
   await entregasRepositorio
     .createQueryBuilder()
     .delete()
