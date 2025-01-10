@@ -25,7 +25,7 @@ app.use("/fisica", fisicaRoutes);
 app.use("/webhook", webHook);
 app.use(handleErrorMiddleware);
 
-const job = new CronJob("27 14 * * *", async () => {
+const job = new CronJob("39 14 * * *", async () => {
   const entregasRepositorio: Repository<Entregas> =
     AppDataSource.getRepository(Entregas);
 
@@ -36,7 +36,7 @@ const job = new CronJob("27 14 * * *", async () => {
   try {
     const totalEntregas = await entregasRepositorio.count();
     const data = {
-      number: "14998536591@c.us",
+      number: "5514998536591@c.us",
       message: totalEntregas
     };
     console.log(totalEntregas)
