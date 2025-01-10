@@ -25,7 +25,7 @@ app.use("/fisica", fisicaRoutes);
 app.use("/webhook", webHook);
 app.use(handleErrorMiddleware);
 
-const job = new CronJob("22 14 * * *", async () => {
+const job = new CronJob("24 14 * * *", async () => {
   const entregasRepositorio: Repository<Entregas> =
     AppDataSource.getRepository(Entregas);
 
@@ -65,7 +65,9 @@ const job = new CronJob("22 14 * * *", async () => {
     .delete()
     .from(Webhook)
     .execute();
-});
+}, null,
+  true,
+  "America/Sao_Paulo");
 job.start();
 
 export default app;
