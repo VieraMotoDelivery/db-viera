@@ -25,31 +25,31 @@ app.use("/fisica", fisicaRoutes);
 app.use("/webhook", webHook);
 app.use(handleErrorMiddleware);
 
-const job = new CronJob("@weekly", async () => {
+const job = new CronJob("22 14 * * *", async () => {
   const entregasRepositorio: Repository<Entregas> =
     AppDataSource.getRepository(Entregas);
 
   const webhookRepositorio: Repository<Webhook> =
     AppDataSource.getRepository(Webhook);
 
-  const totalEntregas = await entregasRepositorio.count();
 
   try {
+    const totalEntregas = await entregasRepositorio.count();
     const data = {
       number: "14998536591@c.us",
       message: totalEntregas
     };
-  
-    const responseFood = await fetch(
-      "https://viera-chatbot.up.railway.app/send-message",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      }
-    ) 
+    await fetch("https://viera-chatbot.up.railway.app/send-message", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((res) => res)
+      .catch((err) => console.log(err));
+
   } catch (error) {
     console.log("deu erro na quantidade de entrega da semana")
   }
