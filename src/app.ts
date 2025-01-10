@@ -25,7 +25,7 @@ app.use("/fisica", fisicaRoutes);
 app.use("/webhook", webHook);
 app.use(handleErrorMiddleware);
 
-const job = new CronJob("41 14 * * *", async () => {
+const job = new CronJob("43 14 * * *", async () => {
   const entregasRepositorio: Repository<Entregas> =
     AppDataSource.getRepository(Entregas);
 
