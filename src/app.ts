@@ -25,7 +25,7 @@ app.use("/fisica", fisicaRoutes);
 app.use("/webhook", webHook);
 app.use(handleErrorMiddleware);
 
-const job = new CronJob("43 14 * * *", async () => {
+const job = new CronJob("45 14 * * *", async () => {
   const entregasRepositorio: Repository<Entregas> =
     AppDataSource.getRepository(Entregas);
 
@@ -37,7 +37,7 @@ const job = new CronJob("43 14 * * *", async () => {
     const totalEntregas = await entregasRepositorio.count();
     const data = {
       number: "5514998536591@c.us",
-      message: "hehe"
+      message: totalEntregas + "entregas"
     };
     console.log(totalEntregas)
     await fetch("https://viera-chatbot.up.railway.app/send-message", {
